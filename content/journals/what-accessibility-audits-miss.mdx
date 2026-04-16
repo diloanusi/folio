@@ -1,0 +1,61 @@
+---
+slug: what-accessibility-audits-miss
+title: "What Accessibility Audits Miss"
+date: "2024-03-19"
+excerpt: "Automated scanning catches roughly 30% of real accessibility issues. Here's what happens in the other 70%."
+tags: ["Accessibility", "UX Research", "Inclusion"]
+readingTime: 6
+---
+
+The most common question I get when I tell someone I'm doing an accessibility audit: "Can't you just run a scanner?"
+
+The short answer is yes, and you absolutely should. Tools like axe-core, Lighthouse, and WAVE are fast, comprehensive within their scope, and catch real issues. They're table stakes.
+
+The longer answer is that automated tools catch approximately 30% of actual accessibility failures. The rest require human judgment, assistive technology testing, and the kind of contextual knowledge about how people actually use these systems that no scanner can replicate.
+
+## What Scanners Are Good At
+
+Automated tools are excellent at catching structural issues:
+
+- Missing alt text on images
+- Form inputs without associated labels
+- Insufficient color contrast ratios
+- Missing landmark regions
+- Pages without proper heading hierarchy
+- Links without descriptive text
+
+These are the issues that have clear, machine-checkable pass/fail criteria. They're also disproportionately the issues that developers are most likely to inadvertently introduce. Running a scanner in CI is genuinely useful.
+
+## What Scanners Miss
+
+**Dynamic content**: Scanners take a snapshot. They don't test what happens when a modal opens, a form error appears, or content loads asynchronously. In complex applications — and most applications are complex — dynamic behavior is where the hardest accessibility failures live.
+
+**Focus management**: Where does keyboard focus go when a modal closes? When a dialog confirms an action? When an accordion expands? Scanners can't tell you whether focus is managed correctly because focus management is inherently about sequence and interaction, not static state.
+
+**Cognitive load and comprehension**: Screen reader users hear page content linearized and read aloud. A page that looks clean visually can be deeply confusing aurally — out-of-order reading flow, ambiguous button labels that only make sense visually, tables that convey meaning through color rather than structure. None of this is machine-checkable.
+
+**Task completion**: The ultimate accessibility question isn't "does this element have a label?" — it's "can this person actually do the thing they came to do?" That requires testing with real users who use assistive technology to accomplish real tasks. No scanner tells you whether a screen reader user can successfully complete a checkout flow.
+
+## What Good Audits Actually Involve
+
+When I run an accessibility audit, automated scanning is the first step, not the whole process:
+
+1. **Automated scan** across all key pages and interaction states
+2. **Expert heuristic review** against WCAG 2.1 AA criteria, focused on interaction patterns
+3. **Keyboard-only navigation** through all user flows
+4. **Screen reader testing** with at least two readers (I use NVDA and VoiceOver)
+5. **Moderated sessions with AT users** for critical flows (booking, checkout, forms)
+
+The combination catches issues that no single method reaches.
+
+## The 30% Problem
+
+The dangerous thing about automated-only audits is that they can create a false impression of compliance. You run the scanner, it returns zero violations, and someone in the organization concludes "we passed accessibility."
+
+What you actually have is evidence that your page structure is technically valid. That's necessary but not sufficient. The experience of using that page with a screen reader, or a switch device, or under the cognitive load of a complex task — that's entirely untested.
+
+The 30% you catch with automation is worth catching. But frame it correctly: it's a floor, not a ceiling.
+
+---
+
+*If you're building a roadmap for accessibility work: automated scanning is an excellent ongoing practice for catching regressions. Invest in moderated AT testing at least once per year, and especially before major redesigns.*

@@ -1,65 +1,119 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import Link from "next/link";
+import { motion } from "framer-motion";
+
+const DISCIPLINES = [
+  {
+    id: "01",
+    label: "UX Research",
+    href: "/ux-research",
+    description: "Qualitative research, usability testing, accessibility audits",
+  },
+  {
+    id: "02",
+    label: "Photography",
+    href: "/films",
+    description: "Film & digital — objects, places, light",
+  },
+  {
+    id: "03",
+    label: "Code",
+    href: "/code",
+    description: "Tools, visualizations, and side projects",
+  },
+  {
+    id: "04",
+    label: "Writing",
+    href: "/journals",
+    description: "Notes on design, process, and practice",
+  },
+];
+
+const stagger = {
+  animate: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+};
+
+const fadeUp = {
+  initial: { opacity: 0, y: 12 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.45 } },
+};
+
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="min-h-[calc(100vh-44px)] flex flex-col">
+      {/* Hero */}
+      <section className="max-w-[1400px] mx-auto px-6 pt-20 pb-16 sm:pt-28 sm:pb-24 flex-1">
+        <motion.div
+          variants={stagger}
+          initial="initial"
+          animate="animate"
+          className="max-w-2xl"
+        >
+          {/* Archive ID */}
+          <motion.p variants={fadeUp} className="fig-label mb-6">
+            [Archive — 2019–Present]
+          </motion.p>
+
+          {/* Headline */}
+          <motion.h1
+            variants={fadeUp}
+            className="text-4xl sm:text-6xl font-light tracking-tight leading-[1.05] mb-8"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Multidisciplinary
+            <br />
+            practitioner.
+          </motion.h1>
+
+          {/* Bio */}
+          <motion.p
+            variants={fadeUp}
+            className="text-[var(--muted)] text-base sm:text-lg font-light leading-relaxed max-w-lg mb-16"
           >
-            Documentation
-          </a>
-        </div>
-      </main>
+            I research how people experience complex systems, document the world
+            through a lens, build things with code, and write about all of it.
+          </motion.p>
+        </motion.div>
+
+        {/* Discipline index */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="border-t border-[var(--border)]"
+        >
+          {DISCIPLINES.map(({ id, label, href, description }, i) => (
+            <motion.div
+              key={id}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.45 + i * 0.07, duration: 0.35 }}
+            >
+              <Link
+                href={href}
+                className="group flex items-baseline py-5 border-b border-[var(--border)] gap-4 hover:bg-[var(--fg)] hover:text-[var(--bg)] transition-colors -mx-6 px-6"
+              >
+                <span className="font-mono text-[11px] text-[var(--muted)] group-hover:text-[var(--bg)] w-8 shrink-0 transition-colors">
+                  {id}
+                </span>
+                <span className="text-lg sm:text-2xl font-light w-48 sm:w-56 shrink-0">
+                  {label}
+                </span>
+                <span className="hidden sm:block font-mono text-[11px] text-[var(--muted)] group-hover:text-[var(--bg)] transition-colors leading-relaxed">
+                  {description}
+                </span>
+                <span className="ml-auto font-mono text-[11px] text-[var(--muted)] group-hover:text-[var(--bg)] transition-colors shrink-0">
+                  →
+                </span>
+              </Link>
+            </motion.div>
+          ))}
+        </motion.div>
+      </section>
     </div>
   );
 }
